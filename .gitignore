@@ -1,0 +1,7 @@
+node_modules
+obj
+bin
+*.pdf
+*.csproj
+main.js
+uploads/
