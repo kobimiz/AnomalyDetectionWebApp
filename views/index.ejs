@@ -45,6 +45,24 @@
         req.open("POST", '/uploadTrain');
         req.send(formData);
     });
+
+    document.getElementById('with').addEventListener('change', (e) => {
+        let data = document.getElementById("with").files[0];  // file from input
+        let selected = document.getElementById('algos').selectedOptions[0].textContent;
+        let formData = new FormData();
+        // NOTE: need to append data as the last element
+        formData.append('actionType', 'detect');
+        formData.append('alg', selected);
+        formData.append('data', data);
+        let req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+            }
+        };
+        req.open("POST", '/detect');
+        req.send(formData);
+    });
 </script>
 </body>
 

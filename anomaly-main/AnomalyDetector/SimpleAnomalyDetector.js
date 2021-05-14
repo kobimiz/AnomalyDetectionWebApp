@@ -1,12 +1,11 @@
 ﻿const AnomalyDetector = require('./AnomalyDetector');
+const anomaly_detection_util = require('./anomaly_detection_util');
 
-module.exports = { detect: this.detect, learnNormal: this.learnNormal };
+// module.exports = { detect: this.detect, learnNormal: this.learnNormal };
 
-
-module.exports.SimpleAnomalyDetector = this.SimpleAnomalyDetector;
+// module.exports.SimpleAnomalyDetector = this.SimpleAnomalyDetector;
 //import {TimeSeriesAnomalyDetector} from './AnomalyDetector';
 class correlatedFeatures {
-
     isCircle = false;
     feature1;
     feature2;  // names of the correlated features
@@ -21,14 +20,14 @@ class correlatedFeatures {
 class SimpleAnomalyDetector {
     adu = new anomaly_detection_util();
     //correlatedFeatures list
-    cf = new List();
+    cf = [];
     threshold;
     SimpleAnomalyDetector(threshold) {
         this.threshold = threshold;
     }
 
     learnNormal(ts) {
-        adu = new anomaly_detection_util();
+        this.adu = new anomaly_detection_util();
         tsMap = ts.table;
         tsFeaturesVector = ts.features;
         featuresVectorSize = tsFeaturesVector.Count();
@@ -60,16 +59,16 @@ class SimpleAnomalyDetector {
                     currentCF.threshold = Math.Max(currentCF.threshold, Math.Abs(adu.dev(points[j], currentCF.lin_reg)));
                 }
                 currentCF.threshold *= 1.1;
-                cf.Add(currentCF);
+                cf.push(currentCF);
             }
         }
     }
 
     detect(ts) {
         //AnomalyReport list
-        vector = new List();
-        i = 0;
-        cf.foreach(element => {
+        let vector = [];
+        let i = 0;
+        this.cf.forEach(element => {
             for (j = 0; j < ts.table.First().Value.Count(); ++j) {
                 // Loop through the map.
                 iter = -1;
@@ -85,12 +84,12 @@ class SimpleAnomalyDetector {
                     description = element.feature1 + "-" + element.feature2;
                     timeStep = j + 1; // For time step to start with 1 instead of 0.
                     ar = new AnomalyReport(description, timeStep); // Build a anomaly report with those features.
-                    vector.Add(ar);
+                    vector.push(ar);
                 }
             }
             i++;
-            return (vector);
         });
+        return vector;
     }
 
     cirCorr(cf, points, size) {

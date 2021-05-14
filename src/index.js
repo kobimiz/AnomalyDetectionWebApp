@@ -3,6 +3,7 @@ const express = require('express')
 const multer = require('multer')
 const SimpleAnomalyDetector = require('./../anomaly-main/AnomalyDetector/SimpleAnomalyDetector')
 const HybridAnomalyDetector = require('./../anomaly-main/AnomalyDetector/HybridAnomalyDetector')
+const timeseries = require('./../anomaly-main/AnomalyDetector/timeseries')
 
 const app = express()
 const PORT = process.env.PORT || 8080
@@ -34,9 +35,26 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 app.post('/uploadTrain', upload.single('data'), (req, res) => {
+    let ts = new timeseries('./uploads/train.csv')
+    let detObj;
     if (req.body.alg === 'Regression algorithm')
+        detObj = new SimpleAnomalyDetector()
+    else if (req.body.alg === 'Hybrid algorithm')
+        detObj = new HybridAnomalyDetector();
+    detObj.learnNormal(ts)
 
     res.send(req.file)
+})
+app.post('/detect', upload.single('data'), (req, res) => {
+    let ts = new timeseries('./uploads/detect.csv')
+    let detObj;
+    if (req.body.alg === 'Regression algorithm')
+        detObj = new SimpleAnomalyDetector()
+    else if (req.body.alg === 'Hybrid algorithm')
+        detObj = new HybridAnomalyDetector()
+    const anomalies = detObj.detect(ts)
+
+    res.send(anomalies)
 })
 
 //POST Requests
