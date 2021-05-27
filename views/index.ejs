@@ -11,58 +11,58 @@
 
 <body>
     <%- include('nav.ejs') %>
-    <main>
-        <%- include('body.ejs') %>
-    </main>
+        <main>
+            <%- include('body.ejs') %>
+        </main>
 
-<script>
-    const button = document.getElementById('start');
+        <script>
+            const button = document.getElementById('start')
 
-    document.getElementById('without').addEventListener('change', (e) => {
-        let data = document.getElementById("without").files[0];  // file from input
-        let formData = new FormData();
-        // NOTE: need to append data as the last element
-        formData.append('data', data);
-        let req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            }
-        };
-        req.open("POST", '/uploadTrain');
-        req.send(formData);
-    });
+            document.getElementById('without').addEventListener('change', (e) => {
+                let data = document.getElementById("without").files[0]  // file from input
+                let formData = new FormData()
+                // NOTE: need to append data as the last element
+                formData.append('data', data)
+                let req = new XMLHttpRequest()
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText)
+                    }
+                }
+                req.open("POST", '/uploadTrain')
+                req.send(formData)
+            })
 
-    document.getElementById('with').addEventListener('change', (e) => {
-        let data = document.getElementById("with").files[0];  // file from input
-        let formData = new FormData();
-        // NOTE: need to append data as the last element
-        formData.append('data', data);
-        let req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            }
-        };
-        req.open("POST", '/uploadDetect');
-        req.send(formData);
-    });
+            document.getElementById('with').addEventListener('change', (e) => {
+                let data = document.getElementById("with").files[0]  // file from input
+                let formData = new FormData()
+                // NOTE: need to append data as the last element
+                formData.append('data', data)
+                let req = new XMLHttpRequest()
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText)
+                    }
+                }
+                req.open("POST", '/uploadDetect')
+                req.send(formData)
+            })
 
 
-    document.getElementById('start').addEventListener('click', (e) => {
-        let selected = document.getElementById('algos').selectedOptions[0].textContent;
+            document.getElementById('start').addEventListener('click', (e) => {
+                let selected = document.getElementById('algos').selectedOptions[0].textContent
 
-        let req = new XMLHttpRequest();
-        req.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            }
-        };
-        req.open("POST", '/detect');
-        req.send(JSON.stringify({alg: selected}));
-    });
+                let req = new XMLHttpRequest()
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText)
+                    }
+                }
+                req.open("POST", '/detect')
+                req.send(JSON.stringify({ alg: selected }))
+            })
 
-</script>
+        </script>
 </body>
 
 </html>

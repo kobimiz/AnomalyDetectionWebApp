@@ -95,3 +95,8 @@ label{
 .start button:active {
     background: rgba(40, 96, 250, 0.37);;
 }
+#results {
+    min-height: 100px;
+    border: 1px solid grey;
+    margin: 50px;
+}
