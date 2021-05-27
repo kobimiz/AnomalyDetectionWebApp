@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.fragment": "glsl",
+        "*.vertex": "glsl",
+        "*.frag": "glsl",
+        "*.vert": "glsl",
+        "xstring": "cpp",
+        "algorithm": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "xmemory": "cpp",
+        "iosfwd": "cpp"
+    }
+}

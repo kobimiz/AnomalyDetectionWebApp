@@ -2,13 +2,13 @@
     features = [];
     //table = new Dictionary<string, List<float>>();
     table = {};
-    Timeseries(CSVfileName) {
+    constructor(CSVfileName) {
         //List<List<string>> csvTwoD = new List<List<string>>();
-        csvTwoD = [];
+        let csvTwoD = [];
 
-        notRead = true;
-        line = String.Empty;
-        file = new System.IO.StreamReader(CSVfileName);
+        let notRead = true;
+        let line = String.Empty;
+        let file = new System.IO.StreamReader(CSVfileName);
         while ((line = file.ReadLine()) != null) {
             parts_of_line = line.Split(',');
             if (notRead) {

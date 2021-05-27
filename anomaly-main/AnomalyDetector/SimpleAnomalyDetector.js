@@ -1,5 +1,5 @@
 ﻿const AnomalyDetector = require('./AnomalyDetector');
-const anomaly_detection_util = require('./anomaly_detection_util');
+const { anomaly_detection_util, Point } = require('./anomaly_detection_util');
 
 // module.exports = { detect: this.detect, learnNormal: this.learnNormal };
 
@@ -22,16 +22,17 @@ class SimpleAnomalyDetector {
     //correlatedFeatures list
     cf = [];
     threshold;
-    SimpleAnomalyDetector(threshold) {
+    constructor(threshold) {
         this.threshold = threshold;
     }
 
     learnNormal(ts) {
+        console.log(ts);
         this.adu = new anomaly_detection_util();
-        tsMap = ts.table;
-        tsFeaturesVector = ts.features;
-        featuresVectorSize = tsFeaturesVector.Count();
-        valueVectorSize = tsMap[tsFeaturesVector[0]].Count();
+        let tsMap = ts.table;
+        let tsFeaturesVector = ts.features;
+        let featuresVectorSize = tsFeaturesVector.length;
+        let valueVectorSize = tsMap[tsFeaturesVector[0]].length;
         for (i = 0; i < featuresVectorSize; ++i) {
             fiName = tsFeaturesVector[i];
             fiData = tsMap[fiName].ToArray();
@@ -62,6 +63,7 @@ class SimpleAnomalyDetector {
                 cf.push(currentCF);
             }
         }
+        console.log(this.cf);
     }
 
     detect(ts) {

@@ -17,24 +17,11 @@
 
 <script>
     const button = document.getElementById('start');
-    button.addEventListener('click', (e) => {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            }
-        };
-        xhttp.open("GET", "http://localhost:8080/hello", true);
-        xhttp.send();
-    });
 
     document.getElementById('without').addEventListener('change', (e) => {
         let data = document.getElementById("without").files[0];  // file from input
-        let selected = document.getElementById('algos').selectedOptions[0].textContent;
         let formData = new FormData();
         // NOTE: need to append data as the last element
-        formData.append('actionType', 'train');
-        formData.append('alg', selected);
         formData.append('data', data);
         let req = new XMLHttpRequest();
         req.onreadystatechange = function () {
@@ -48,11 +35,8 @@
 
     document.getElementById('with').addEventListener('change', (e) => {
         let data = document.getElementById("with").files[0];  // file from input
-        let selected = document.getElementById('algos').selectedOptions[0].textContent;
         let formData = new FormData();
         // NOTE: need to append data as the last element
-        formData.append('actionType', 'detect');
-        formData.append('alg', selected);
         formData.append('data', data);
         let req = new XMLHttpRequest();
         req.onreadystatechange = function () {
@@ -60,9 +44,24 @@
                 console.log(this.responseText);
             }
         };
-        req.open("POST", '/detect');
+        req.open("POST", '/uploadDetect');
         req.send(formData);
     });
+
+
+    document.getElementById('start').addEventListener('click', (e) => {
+        let selected = document.getElementById('algos').selectedOptions[0].textContent;
+
+        let req = new XMLHttpRequest();
+        req.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+            }
+        };
+        req.open("POST", '/detect');
+        req.send(JSON.stringify({alg: selected}));
+    });
+
 </script>
 </body>
 

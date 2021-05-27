@@ -92,4 +92,4 @@ class anomaly_detection_util {
         return x;
     }
 }
-module.exports = anomaly_detection_util;
+module.exports = { anomaly_detection_util, Point, Line };
