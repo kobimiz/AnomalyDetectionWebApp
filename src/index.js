@@ -46,9 +46,7 @@ app.post('/uploadDetect', upload.single('data'), (req, res) => {
 
 app.post('/detect', (req, res) => {
     let socket = new net.Socket()
-    socket.connect(8000, "localhost", function () {
-        console.log("Client: Connected to server")
-    })
+    socket.connect(8000, "localhost", () => {})
 
     let result = ''
     socket.on("data", function (data) {

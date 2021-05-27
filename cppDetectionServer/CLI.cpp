@@ -15,14 +15,6 @@ void CLI::start(){
 	SharedState sharedState;
 	int index=-1;
 	while(index!=5){
-		dio->write("Welcome to the Anomaly Detection Server.\n");
-		dio->write("Please choose an option:\n");
-		for(size_t i=0;i<commands.size();i++){
-			string s("1.");
-			s[0]=((char)(i+1+'0'));
-			dio->write(s);
-			dio->write(commands[i]->description+"\n");
-		}
 		string input = dio->read();
 		cout << "got '" << input << "'\n";
 		index=input[0]-'0'-1;

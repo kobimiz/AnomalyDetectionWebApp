@@ -74,12 +74,8 @@ class UploadCSV :public Command {
 public:
 	UploadCSV(DefaultIO* dio) :Command(dio, "upload a time series csv file") {}
 	virtual void execute(SharedState* sharedState) {
-		dio->write("Please upload your local train CSV file.\n");
 		dio->readAndFile("anomalyTrain.csv");
-		dio->write("Upload complete.\n");
-		dio->write("Please upload your local test CSV file.\n");
 		dio->readAndFile("anomalyTest.csv");
-		dio->write("Upload complete.\n");
 	}
 };
 
@@ -138,8 +134,6 @@ public:
 			});
 		sharedState->fixdRports.push_back(fr);
 		sharedState->fixdRports.erase(sharedState->fixdRports.begin());
-
-		dio->write("anomaly detection complete.\n");
 	}
 };
 class DetectSimple :public Command {
@@ -172,7 +166,6 @@ public:
 		sharedState->fixdRports.push_back(fr);
 		sharedState->fixdRports.erase(sharedState->fixdRports.begin());
 
-		dio->write("anomaly detection complete.\n");
 	}
 };
 
@@ -184,7 +177,6 @@ public:
 			dio->write(ar.timeStep);
 			dio->write("\t" + ar.description + "\n");
 			});
-		dio->write("Done.\n");
 	}
 };
 
@@ -214,7 +206,6 @@ public:
 			sharedState->fixdRports[i].tp = false;
 		}
 
-		dio->write("Please upload your local anomalies file.\n");
 		string s = "";
 		float TP = 0, sum = 0, P = 0;
 		while ((s = dio->read()) != "done\n") {
@@ -229,7 +220,6 @@ public:
 			sum += end + 1 - start;
 			P++;
 		}
-		dio->write("Upload complete.\n");
 		float FP = 0;
 		for (size_t i = 0;i < sharedState->fixdRports.size();i++)
 			if (!sharedState->fixdRports[i].tp)
