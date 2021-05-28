@@ -3,9 +3,6 @@ const express = require('express')
 const multer = require('multer')
 const net = require('net')
 const fs = require('fs')
-const SimpleAnomalyDetector = require('./../anomaly-main/AnomalyDetector/SimpleAnomalyDetector')
-const HybridAnomalyDetector = require('./../anomaly-main/AnomalyDetector/HybridAnomalyDetector')
-const timeseries = require('./../anomaly-main/AnomalyDetector/timeseries')
 
 const app = express()
 const PORT = process.env.PORT || 8080
