@@ -4,7 +4,7 @@ bin
 *.pdf
 *.csproj
 main.js
-uploads/
+uploads/*.csv
 cppDetectionServer/server.out
 cppDetectionServer/object/*.o
 cppDetectionServer/*.csv
