@@ -7,3 +7,4 @@ main.js
 uploads/
 cppDetectionServer/server.out
 cppDetectionServer/object
+cppDetectionServer/*.csv
