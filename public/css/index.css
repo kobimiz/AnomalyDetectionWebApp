@@ -1,0 +1,105 @@
+/* Header */
+.header{
+    height: 40px;
+    width: 100vw;
+    background:rgb(0, 110, 255);
+    color: white;
+}
+.header span{
+    font-size: 25px
+}
+/* Index */
+*{
+    -webkit-tap-highlight-color: transparent;
+}
+body{
+    overflow: hidden;
+    background: rgb(228, 228, 228);
+    padding: 0;
+    margin: 0;
+}
+
+/* style for body view */
+main{
+    text-align: center;
+}
+.body{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 20% 20% 20% 40%;
+}
+.wrapper{
+    display: relative;
+}
+/* .box{
+    position: absolute;
+    top: 30%;
+    left:50%;
+    transform: translate(-50%, -50%);
+} */
+/* select button style */
+.box select{
+    background: orange;
+    color: white;
+    padding: 10px;
+    width: 350px;
+    height: 50px;
+    border: none;
+    font-size: 25px;
+    -webkit-appearance: border;
+    outline: none;
+}
+
+/* choose file buttons */
+.fileButtons{
+    margin: auto;
+}
+.without, .with {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+#without{
+    display: none;
+}
+#with {
+    display: none;
+}
+
+label{
+    color: white;
+    height: 40px;
+    width: 200px;
+    background: orange;
+    /* margin: auto; */
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: right;
+}
+.without span {
+    margin-right: 10px;
+}
+.start button{
+    border: none;
+    color: white;
+    background: rgb(40, 96, 250);
+    padding: 15px;
+    font-weight: bold;
+    font-size: 20px;
+}
+.start button:active {
+    background: rgba(40, 96, 250, 0.37);;
+}
+#resultsContainer {
+    border: 1px solid grey;
+    margin: 50px;
+}
+#results {
+    padding: 20px;
+    resize: none;
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/index.css" type="text/css">
+    <title>Anamoly Detection Server</title>
+</head>
+
+<body>
+    <%- include('nav.ejs') %>
+        <main>
+            <%- include('body.ejs') %>
+        </main>
+
+        <script>
+            const button = document.getElementById('start')
+
+            document.getElementById('without').addEventListener('change', (e) => {
+                let data = document.getElementById("without").files[0]  // file from input
+                let formData = new FormData()
+                // NOTE: need to append data as the last element
+                formData.append('data', data)
+                let req = new XMLHttpRequest()
+                req.open("POST", '/uploadTrain')
+                req.send(formData)
+            })
+
+            document.getElementById('with').addEventListener('change', (e) => {
+                let data = document.getElementById("with").files[0]  // file from input
+                let formData = new FormData()
+                // NOTE: need to append data as the last element
+                formData.append('data', data)
+                let req = new XMLHttpRequest()
+                req.open("POST", '/uploadDetect')
+                req.send(formData)
+            })
+
+
+            document.getElementById('start').addEventListener('click', (e) => {
+                let selected = document.getElementById('algos').selectedOptions[0].textContent
+
+                let req = new XMLHttpRequest()
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let results = document.getElementById('results').textContent = this.responseText
+                    }
+                }
+                req.open("POST", '/detect')
+                req.send(JSON.stringify({ alg: selected }))
+            })
+
+        </script>
+</body>
+
+</html>

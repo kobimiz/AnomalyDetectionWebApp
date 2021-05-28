@@ -1,0 +1,10 @@
+node_modules
+obj
+bin
+*.pdf
+*.csproj
+main.js
+uploads/
+cppDetectionServer/server.out
+cppDetectionServer/object/*.o
+cppDetectionServer/*.csv
