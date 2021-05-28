@@ -6,4 +6,4 @@ bin
 main.js
 uploads/
 cppDetectionServer/a.out
-cppDetectionServer/object/*.o
+cppDetectionServer/object

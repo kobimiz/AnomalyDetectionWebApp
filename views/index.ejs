@@ -24,11 +24,6 @@
                 // NOTE: need to append data as the last element
                 formData.append('data', data)
                 let req = new XMLHttpRequest()
-                req.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText)
-                    }
-                }
                 req.open("POST", '/uploadTrain')
                 req.send(formData)
             })
@@ -39,11 +34,6 @@
                 // NOTE: need to append data as the last element
                 formData.append('data', data)
                 let req = new XMLHttpRequest()
-                req.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText)
-                    }
-                }
                 req.open("POST", '/uploadDetect')
                 req.send(formData)
             })
@@ -55,7 +45,7 @@
                 let req = new XMLHttpRequest()
                 req.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        console.log(this.responseText)
+                        let results = document.getElementById('results').textContent = this.responseText
                     }
                 }
                 req.open("POST", '/detect')
