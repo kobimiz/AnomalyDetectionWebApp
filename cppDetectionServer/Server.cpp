@@ -43,7 +43,6 @@ Server::Server(int port)throw (const char*) {
 	if (bind(fd, (struct sockaddr*)&server, sizeof(server)) < 0)
 		throw "bind failure";
 
-	cout << "calling to listen\n";
 	if (listen(fd, 3) < 0)
 		throw "listen failure";
 }
@@ -58,7 +57,6 @@ void Server::start(ClientHandler& ch)throw(const char*) {
 	while (!stopped) {
 		socklen_t clientSize = sizeof(client);
 		alarm(1);
-		cout << "calling to accept\n";
 		int aClient = accept(fd, (struct sockaddr*)&client, &clientSize);
 		if (aClient > 0) {
 			//new thread([&aClient,this,&ch](){
