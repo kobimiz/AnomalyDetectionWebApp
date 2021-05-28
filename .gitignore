@@ -5,5 +5,5 @@ bin
 *.csproj
 main.js
 uploads/
-cppDetectionServer/a.out
+cppDetectionServer/server.out
 cppDetectionServer/object

@@ -57,11 +57,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts) {
 			}
 		}
 		string f2 = atts[jmax];
-		auto temp1 = ts.getAttributeData(f1);
-		auto temp2 = ts.getAttributeData(f2);
-		cout << "size1: " << temp1.size() << endl;
-		cout << "size2: " << temp2.size() << endl;
-		Point** ps = toPoints(temp1, temp2);
+		Point** ps = toPoints(ts.getAttributeData(f1), ts.getAttributeData(f2));
 
 		learnHelper(ts, max, f1, f2, ps);
 

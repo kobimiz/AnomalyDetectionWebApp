@@ -16,7 +16,6 @@ void CLI::start(){
 	int index=-1;
 	while(index!=5){
 		string input = dio->read();
-		cout << "got '" << input << "'\n";
 		index=input[0]-'0'-1;
 		if(index>=0 && index<=6)
 			commands[index]->execute(&sharedState);

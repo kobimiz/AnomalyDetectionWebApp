@@ -104,16 +104,12 @@ class Detect :public Command {
 public:
 	Detect(DefaultIO* dio) :Command(dio, "detect anomalies") {}
 	virtual void execute(SharedState* sharedState) {
-		cout << "trying to detect\n";
 		TimeSeries train("anomalyTrain.csv");
 		TimeSeries test("anomalyTest.csv");
-		cout << "read files\n";
 		sharedState->testFileSize = test.getRowSize();
 		HybridAnomalyDetector ad;
 		ad.setCorrelationThreshold(sharedState->threshold);
-		cout << "before learn\n";
 		ad.learnNormal(train);
-		cout << "before detect\n";
 		sharedState->report = ad.detect(test);
 
 		fixdReport fr;
@@ -121,7 +117,6 @@ public:
 		fr.end = 0;
 		fr.description = "";
 		fr.tp = false;
-		cout << "before foreach\n";
 		for_each(sharedState->report.begin(), sharedState->report.end(), [&fr, sharedState](AnomalyReport& ar) {
 			if (ar.timeStep == fr.end + 1 && ar.description == fr.description)
 				fr.end++;
