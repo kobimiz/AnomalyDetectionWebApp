@@ -32,3 +32,6 @@ You need to supply a JSON object in the following format
   }`
   Where trainData and detectData are the actual data (and not file names)
   The returned value is a JSON obejct that contains the anomalies.
+  
+ ## Screen Shot
+ ![image](https://user-images.githubusercontent.com/56509308/120062513-4fee8f00-c06b-11eb-968e-ad1ac1cee29b.png)
