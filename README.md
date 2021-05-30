@@ -26,7 +26,7 @@ The main entry point is (using the post method)
 
 You need to supply a JSON object in the following format
 `{
-       alg: regression/hybrid,
+       alg: Regression algorithm/Hybrid algorithm,
        trainData: ...,
        detectData: ...
   }`
