@@ -6,17 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/index.css" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@1,800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.1/chart.min.js"></script>
     <title>Anamoly Detection Server</title>
 </head>
 
 <body>
     <%- include('nav.ejs') %>
+    
         <main>
             <%- include('body.ejs') %>
         </main>
-
         <script>
             const button = document.getElementById('start')
+            //chart
+            var ctx = document.getElementById('chart');
+            var chart;
+            var columns;
 
             document.getElementById('without').addEventListener('change', (e) => {
                 let data = document.getElementById("without").files[0]  // file from input
@@ -36,25 +43,177 @@
                 formData.append('actionType', 'detect')
                 formData.append('data', data)
                 let req = new XMLHttpRequest()
+                req.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        columns=this.response;
+                        console.log(JSON.stringify(columns));  
+                    }
+                }
                 req.open("POST", '/uploadDetect')
                 req.send(formData)
             })
 
-
-            document.getElementById('start').addEventListener('click', (e) => {
-                let selected = document.getElementById('algos').selectedOptions[0].textContent
-
+            /*function updateGraph(feature1,feature2) {  
                 let req = new XMLHttpRequest()
+                req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    const toNumbers = arr => arr.map(Number);
+                    var columns = JSON.parse(this.response);
+                    var col1 = columns[feature1];
+                    var data1 = toNumbers(col1);
+                    var col2 = columns[feature2];
+                    var data2 = toNumbers(col2);
+                    var chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: [],
+                                datasets: [{ 
+                                    data: data1,
+                                    label: feature1,
+                                    borderColor: "#3e95cd",
+                                    fill: false
+                                }, { 
+                                    data: data2,
+                                    label: feature2,
+                                    borderColor: "#8e5ea2",
+                                    fill: false
+                                },]},
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: 'features'
+                                    }
+                                }
+                            });
+                }};
+                req.open("POST", "/csvToJson");
+                req.send();
+                    }*/
+            document.getElementById('start').addEventListener('click', (e) => {
+                let selected = document.getElementById('algos').selectedOptions[0].textContent;
+                let req = new XMLHttpRequest()
+                var anomalies;
+                var i=0;
+                var info={};
+                var ul = document.getElementById("results-list");
                 req.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
-                        let results = document.getElementById('results').textContent = this.responseText
+                        //let results = document.getElementById('results').textContent = this.responseText
+                        var anomalies = this.responseText.split("\n")
+                        if (ul) {
+                             while (ul.firstChild) {
+                                 ul.removeChild((ul.firstChild));
+                                }
+                            }
+                            for(i;i<anomalies.length-1;i++) {
+                            //add info to json 
+                            var line = anomalies[i].split("	");
+                            var features = line[1].split("-");
+                            var anomaly={};
+                            anomaly["timestamp"]=line[0];
+                            anomaly["feature1"]=features[0];
+                            anomaly["feature2"]=features[1];
+                            info[i]=anomaly;
+
+                            //add to list
+                            var li = document.createElement("li");
+                            li.setAttribute('id',i);
+                            var button_ = document.createElement("button");
+                            button_.setAttribute('id','list_item:'+i);
+                            button_.setAttribute('feature1',features[0]);
+                            button_.setAttribute('feature2',features[1]);
+                            /*button_.setAttribute('onclick',"updateGraph(features[0],features[1])")
+                            button_.onclick = function(){updateGraph(features[0],features[1]);};*/
+                            button_.appendChild(document.createTextNode("features: "+line[1]+"\ntimestamp: "+line[0]));
+                            li.appendChild(button_);
+                            ul.appendChild(li);
+                            addlistEventListener(i) 
                     }
-                }
+                }            
+            }
                 req.open("POST", '/detect')
                 req.send(JSON.stringify({ alg: selected }))
+                 
             })
 
+            function addlistEventListener(i) {
+                var item = document.getElementById('list_item:'+i);
+                var feature1=item.getAttribute('feature1');
+                var feature2=item.getAttribute('feature2');
+                item.addEventListener('click', (e) => {
+                let req = new XMLHttpRequest()
+                req.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+
+                //deleting chart before udating
+                if (chart) {
+                    chart.destroy();
+                }
+                
+                    const toNumbers = arr => arr.map(Number);
+                    var response_ = JSON.parse(this.responseText);
+                    var columnsTrain = response_[0];
+                    var columnsDetect = response_[1];
+
+                    var col1Train = columnsTrain[feature1];
+                    var data1Train = toNumbers(col1Train);
+                    var col2Train = columnsTrain[feature2];
+                    var data2Train = toNumbers(col2Train);
+
+                    
+                    var points1 = []
+                    var i=0;
+                    for (i;i<data1Train.length;i++) {
+                        var point={};
+                        point["x"] = data1Train[i];
+                        point["y"] = data2Train[i];
+                        points1.push(point);
+                    }
+                    i=0;
+                    
+                    var col1Detect = columnsDetect[feature1];
+                    var data1Detect = toNumbers(col1Detect);
+                    var col2Detect = columnsDetect[feature2];
+                    var data2Detect = toNumbers(col2Detect);
+
+                    var points2 = []
+                    for (i;i<data1Detect.length;i++) {
+                        var point={};
+                        point["x"] = data1Detect[i];
+                        point["y"] = data2Detect[i];
+                        points2.push(point);
+                    }
+
+                    //updating the graph
+                    chart = new Chart(ctx, {
+                            type: 'scatter',
+                            data: {
+                                labels: [],
+                                datasets: [{ 
+                                    data: points1,
+                                    label: "anomalous file",
+                                    borderColor: "#3e95cd",
+                                    fill: false
+                                }, { 
+                                    data: points2,
+                                    label: "train file",
+                                    borderColor: "#8e5ea2",
+                                    fill: false
+                                } ,]},
+                                options: {
+                                    title: {
+                                        display: true,
+                                        text: 'features'
+                                    }
+                                }
+                            });
+                }};
+                req.open("POST", "/csvToJson");
+                req.send(); 
+            }) 
+        }
         </script>
+
 </body>
 
 </html>

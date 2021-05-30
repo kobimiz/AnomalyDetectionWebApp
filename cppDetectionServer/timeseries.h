@@ -1,7 +1,7 @@
 /*
  * timeseries.h
  *
- *  Created on: 26 баечЧ 2020
+ *  Created on: 26 пїЅпїЅпїЅпїЅпїЅ 2020
  *      Author: Eli
  */
 

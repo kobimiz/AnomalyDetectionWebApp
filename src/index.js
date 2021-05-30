@@ -3,6 +3,10 @@ const express = require('express')
 const multer = require('multer')
 const net = require('net')
 const fs = require('fs')
+const readCSV = require('../public/CSVtoJSON').readCSV;
+const { json } = require('express');
+
+
 
 const app = express()
 const PORT = process.env.PORT || 8080
@@ -71,6 +75,7 @@ async function trainDetect(trainFile, detectFile, type, res, transformFunc) {
 app.get('/', (req, res) => {
     res.render('index')
 })
+
 app.post('/uploadTrain', upload.single('data'), (req, res) => {
     console.log('uploaded training file successfuly')
 })
@@ -78,12 +83,22 @@ app.post('/uploadTrain', upload.single('data'), (req, res) => {
 app.post('/uploadDetect', upload.single('data'), (req, res) => {
     console.log('uploaded detection file successfuly')
 })
+app.post('/csvToJson', upload.single('data'), (req, res) => {
+    var response =[];
+    var values =['./uploads/detect.csv','./uploads/train.csv']
+
+    for (var i=0;i<values.length;i++) {
+        var result_string = JSON.stringify(readCSV(values[i]));
+        var result =JSON.parse(result_string);
+        response.push(result);
+    }
+    res.end(JSON.stringify(response));
+})
 
 app.post('/detect', (req, res) => {
     let body = JSON.parse(req.body)
     trainDetect(fs.readFileSync('./uploads/train.csv').toString(), fs.readFileSync('./uploads/detect.csv').toString(), body.alg, res, res => res)
 })
-
 
 app.post('/', (req, res) => {
     /**
