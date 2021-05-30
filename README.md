@@ -34,4 +34,5 @@ You need to supply a JSON object in the following format
   The returned value is a JSON obejct that contains the anomalies.
   
  ## Screen shot
- ![image](https://user-images.githubusercontent.com/56509308/120062513-4fee8f00-c06b-11eb-968e-ad1ac1cee29b.png)
+![image](https://user-images.githubusercontent.com/56509308/120115595-0a29e780-c18d-11eb-8b0c-d37a9f46c394.png)
+
