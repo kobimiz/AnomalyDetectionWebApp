@@ -36,5 +36,5 @@ You need to supply a JSON object in the following format
 ## Screen shot
 ![image](https://user-images.githubusercontent.com/56509308/120115595-0a29e780-c18d-11eb-8b0c-d37a9f46c394.png)
 
-##Tutorial:
+## Tutorial
 https://youtu.be/YHMhBSQIW2o
